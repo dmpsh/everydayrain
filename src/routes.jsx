@@ -1,8 +1,31 @@
+import { useRouteError } from "react-router-dom";
+
 import RootLayout from '@/layouts/RootLayout';
 
-import HomePage from '@/pages/HomePage';
+import HomePage, { loader as HomeLoader } from '@/pages/HomePage';
 import { ContactPage } from '@/pages/ContactPage';
 import NotFoundPage from '@/pages/NotFoundPage';
+
+// Global error boundary
+function GlobalErrorPage() {
+  const error = useRouteError();
+  return (
+    <div className="global-error-page">
+      <p>{error.message || "Unknown error"}</p>
+    </div>
+  );
+}
+
+function CustomErrorPage() {
+  const error = useRouteError();
+  //console.log(error)
+  return (
+    <div className="error-page">
+      <h1>Ошибка</h1>
+      <p>{error.data || "Произошла ошибка при загрузке данных."}</p>
+    </div>
+  );
+}
 
 //const routes = [ // v-1
 export const routes = [ // v-2
@@ -11,11 +34,14 @@ export const routes = [ // v-2
     element: <RootLayout />,
     handle: { crumb: () => 'Главная' },
     //errorElement: <NotFoundPage />, // ТОЛЬКО содержимое NotFoundPage ( БЕЗ содержимого <RootLayout /> )
+    //errorElement: <GlobalErrorPage />, // ТОЛЬКО содержимое GlobalErrorPage ( БЕЗ содержимого <RootLayout /> )
     children: [
       {
         id: 'home',
         index: true,
         element: <HomePage />,
+        loader: HomeLoader,
+        errorElement: <CustomErrorPage />, // ВСЁ содержимое <RootLayout /> + содержимое CustomErrorPage
       },
       {
         id: 'contacts',
