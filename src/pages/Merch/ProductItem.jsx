@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import FavsButton from '@/components/FavsButton/FavsButton';
 
 const ProductItem = (props) => {
     //console.log(props);
@@ -9,6 +10,7 @@ const ProductItem = (props) => {
     return (
         <div className="catalog_block-item">
             <div className="main">
+                <FavsButton initialState={false} onClick={(newState) => console.log(title + ' - Избранное:'+newState)} />
                 <Link to={baseLink}>
                     <div className="img">
                         <img src={image} alt={title} />

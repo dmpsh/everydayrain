@@ -42,6 +42,14 @@ const NavigationMenu = () => {
                                                 Мерч
                                             </NavLink>
                                         </div>
+                                        <div className="menu-item">
+                                            <NavLink to="favorites" onClick={toggleMenu}
+                                                className={({ isActive }) => {
+                                                    return isActive ? "active" : "";
+                                                }}>
+                                                Избранное
+                                            </NavLink>
+                                        </div>
                                     </div>
                                 </motion.div>
                             )}

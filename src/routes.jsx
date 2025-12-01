@@ -11,6 +11,8 @@ import MerchList, { loader as MerchListLoader } from '@/pages/Merch/List';
 import MerchDetail, { loader as MerchDetailLoader } from '@/pages/Merch/Detail';
 import MerchCategories, { loader as MerchCategoriesLoader } from '@/pages/Merch/Categories';
 
+import FavoritesPage from '@/pages/FavoritesPage';
+
 // Global error boundary
 function GlobalErrorPage() {
   const error = useRouteError();
@@ -67,10 +69,10 @@ export const routes = [ // v-2
       },
       {
         id: 'notfound',
-        path:'*',
+        path: '*',
         element: <NotFoundPage /> // ВСЁ на 404 страницу ( ВСЁ содержимое <RootLayout /> )
       },
-      
+
       {
         id: 'merch',
         path: "/merch",
@@ -110,7 +112,16 @@ export const routes = [ // v-2
           },
         ],
       },
-	  
+
+      {
+        id: 'favorites',
+        path: '/favorites/',
+        handle: {
+          crumb: () => 'Избранное',
+        },
+        element: <FavoritesPage />
+      },
+
     ],
   },
 ];

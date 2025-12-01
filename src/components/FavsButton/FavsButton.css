@@ -1,0 +1,40 @@
+.favs-button {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favs-button:hover {
+  transform: scale(1.1);
+}
+
+.favs-button .active {
+  transform: scale(0.95);
+}
+
+.favs-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.favs-icon-path {
+  fill: #ffffff;
+  stroke: #000000;
+  stroke-width: 2px;
+  transition: fill 0.3s ease;
+}
+
+.favs-button.active .favs-icon-path {
+  fill: #ff0000;
+}
+
+.favs-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+}

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useLoaderData } from 'react-router-dom';
+import FavsButton from '@/components/FavsButton/FavsButton';
 
 const MerchDetail = () => {
     const productDetail = useLoaderData(); // т.к. используется ф-ция loader
@@ -14,6 +15,7 @@ const MerchDetail = () => {
                 <div className="catalog_index_block-wrap">
                     <div className="catalog_index_block-gallery">
                         <div className="img">
+                            <FavsButton initialState={false} onClick={(newState) => console.log(displayTitle + ' - Избранное:'+newState)} />
                             <img src={image} alt={displayTitle} />
                         </div>
                     </div>
