@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 const ProductItem = (props) => {
     //console.log(props);
 	if (!props) return null;
-	const { id, title, image, price } = props; // используем деструктуризацию для получения значений из props
-	const baseLink = `/merch/${id}`;
+    const { id, title, image, price, category } = props; // используем деструктуризацию для получения значений из props
+    //const baseLink = category ? `/merch/${encodeURIComponent(category.replace(/\s+/g, '-'))}/${id}` : `/merch/${id}`;
+    const baseLink = `/merch/${category ? encodeURIComponent(category.replace(/\s+/g, '-')) + '/' : ''}${id}`;
     return (
         <div className="catalog_block-item">
             <div className="main">

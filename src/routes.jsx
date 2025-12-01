@@ -9,6 +9,7 @@ import NotFoundPage from '@/pages/NotFoundPage';
 //import MerchList from '@/pages/Merch/List';
 import MerchList, { loader as MerchListLoader } from '@/pages/Merch/List';
 import MerchDetail, { loader as MerchDetailLoader } from '@/pages/Merch/Detail';
+import MerchCategories, { loader as MerchCategoriesLoader } from '@/pages/Merch/Categories';
 
 // Global error boundary
 function GlobalErrorPage() {
@@ -79,13 +80,24 @@ export const routes = [ // v-2
         children: [
           {
             index: true,
+            element: <MerchCategories />,
+            loader: MerchCategoriesLoader,
+          },
+          {
+            id: 'category',
+            path: ':category',
             element: <MerchList />,
             loader: MerchListLoader,
-            errorElement: <CustomErrorPage />, // ВСЁ содержимое <RootLayout /> + содержимое функции
+            handle: {
+              crumb: (data) => {
+                const category = data?.category || 'Категория';
+                return decodeURIComponent(category).replace(/-/g, ' '); // заменяем "-" на пробел
+              },
+            },
           },
           {
             id: 'merch-detail',
-            path: ':id',
+            path: ':category/:id',
             element: <MerchDetail />,
             loader: MerchDetailLoader,
             errorElement: <ProductErrorPage />, // ВСЁ содержимое <RootLayout /> + содержимое функции

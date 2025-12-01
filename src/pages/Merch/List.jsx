@@ -3,42 +3,36 @@ import { useLoaderData } from 'react-router-dom';
 import ProductItem from "@/pages/Merch/ProductItem";
 
 const MerchList = () => {
-	const products = useLoaderData(); // т.к. используется ф-ция loader
-    //console.log(products);
+    const data = useLoaderData();
+    const products = data?.products || [];
     return (
-        <>
-            <section className="catalog_block">
-                <div className="container">
-                    <div className="catalog_block-wrap">
-                        <div className="catalog_block-list">
-                            {products ?
-                                products.map((product) => {
-                                    return (
-                                        <ProductItem key={product.id} {...product} />
-                                    );
-                                })
-								:
-								<p>Список товаров пуст...</p>
-                            }
-                        </div>
+        <section className="catalog_block">
+            <div className="container">
+                <div className="catalog_block-wrap">
+                    <div className="catalog_block-list">
+                        {products.length === 0 && <p>Список товаров пуст...</p>}
+                        {products.map((product) => (
+                            <ProductItem key={product.id} {...product} />
+                        ))}
                     </div>
                 </div>
-            </section>
-        </>
+            </div>
+        </section>
     );
-}
+};
 export default MerchList;
 
-export async function loader() {
-	/*------------ тут не доступны хуки ------------*/
-    let axiosParams = {
-		//headers: { 'Cache-Control': 'no-cache' }, // НЕ кэшируем
-	};
-    const url = 'https://fakestoreapi.com/products'; // НЕ испл. proxy секцию в конфиге
-    const response = await axios.get(url, axiosParams);
-    const data = response.data;
-    if (!data || typeof data !== 'object') {
-        throw new Error; // отправим ошибку в функцию ( src/routes.jsx )
+export async function loader({ params }) {
+    const { category } = params || {};
+    if (!category) {
+        return { category: null, products: [] };
     }
-    return await data;
-};
+    try {
+        const categoryName = category.replace(/-/g, ' '); // заменяем "-" на пробел
+        const url = `https://fakestoreapi.com/products/category/${categoryName}`;
+        const response = await axios.get(url);
+        return { category, products: response.data || [] };
+    } catch (e) {
+        return { category, products: [] };
+    }
+}
