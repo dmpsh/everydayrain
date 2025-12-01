@@ -3,6 +3,7 @@ import { Loader } from 'lucide-react';
 
 import { Footer } from '@/components/Footer';
 import NavigationMenu from '@/components/NavigationMenu';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export default function RootLayout() {
   const navigation = useNavigation();
@@ -12,6 +13,8 @@ export default function RootLayout() {
     <>
       <NavigationMenu />
       
+      <Breadcrumbs />
+
       <main>
         {navigation.state === "loading" && (
           <Loader className='animate-spin mx-auto' size={50} />

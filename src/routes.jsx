@@ -1,5 +1,3 @@
-import { useRouteError } from "react-router-dom";
-
 import RootLayout from '@/layouts/RootLayout';
 
 import HomePage from '@/pages/HomePage';
@@ -11,18 +9,19 @@ export const routes = [ // v-2
   {
     path: '/',
     element: <RootLayout />,
+    handle: { crumb: () => 'Главная' },
     //errorElement: <NotFoundPage />, // ТОЛЬКО содержимое NotFoundPage ( БЕЗ содержимого <RootLayout /> )
     children: [
       {
         id: 'home',
         index: true,
         element: <HomePage />,
-		
       },
       {
         id: 'contacts',
         path: "/contacts",
         element: <ContactPage />,
+        handle: { crumb: () => 'Контакты' },
       },
       {
         id: 'notfound',
