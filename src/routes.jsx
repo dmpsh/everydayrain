@@ -6,6 +6,10 @@ import HomePage, { loader as HomeLoader } from '@/pages/HomePage';
 import { ContactPage } from '@/pages/ContactPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
+//import MerchList from '@/pages/Merch/List';
+import MerchList, { loader as MerchListLoader } from '@/pages/Merch/List';
+import MerchDetail, { loader as MerchDetailLoader } from '@/pages/Merch/Detail';
+
 // Global error boundary
 function GlobalErrorPage() {
   const error = useRouteError();
@@ -18,11 +22,22 @@ function GlobalErrorPage() {
 
 function CustomErrorPage() {
   const error = useRouteError();
-  //console.log(error)
+  console.log(error)
   return (
     <div className="error-page">
       <h1>Ошибка</h1>
       <p>{error.data || "Произошла ошибка при загрузке данных."}</p>
+    </div>
+  );
+}
+
+// Product page error handling (e.g., 404s)
+function ProductErrorPage() {
+  const error = useRouteError();
+  return (
+    <div className="error-page">
+      <h1>{error.status === 404 ? "Товар не найден" : "Ошибка"}</h1>
+      <p>{error.data || "Попробуйте другой ID товара."}</p>
     </div>
   );
 }
@@ -55,7 +70,34 @@ export const routes = [ // v-2
         element: <NotFoundPage /> // ВСЁ на 404 страницу ( ВСЁ содержимое <RootLayout /> )
       },
       
-	  
+      {
+        id: 'merch',
+        path: "/merch",
+        handle: {
+          crumb: () => 'Мерч',
+        },
+        children: [
+          {
+            index: true,
+            element: <MerchList />,
+            loader: MerchListLoader,
+            errorElement: <CustomErrorPage />, // ВСЁ содержимое <RootLayout /> + содержимое функции
+          },
+          {
+            id: 'merch-detail',
+            path: ':id',
+            element: <MerchDetail />,
+            loader: MerchDetailLoader,
+            errorElement: <ProductErrorPage />, // ВСЁ содержимое <RootLayout /> + содержимое функции
+            handle: {
+              crumb: (data) => {
+                //console.log(data);
+                return data ? data.title : 'Товар не найден';
+              },
+            },
+          },
+        ],
+      },
 	  
     ],
   },
