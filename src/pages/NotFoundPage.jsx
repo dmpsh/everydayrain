@@ -1,0 +1,17 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+//import PageNotFound from '@/assets/404.png'; // если картинка загружена в папку /src/assets/
+import PageNotFound from '/404.png'; // если картинка загружена в папку /public/
+
+class NotFoundPage extends React.Component {
+    render() {
+        return (
+            <div style={{ textAlign: "center" }}>
+                {<img src={PageNotFound} alt="404" />} <br />
+                <Link to='/'>На главную</Link>
+            </div>
+        );
+    }
+}
+export default NotFoundPage;
