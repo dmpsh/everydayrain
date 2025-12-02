@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import FavsButton from '@/components/FavsButton/FavsButton';
+import { useFavoritesContext } from "@/contexts/FavoritesContext";
 
 const ProductItem = (props) => {
     //console.log(props);
@@ -7,10 +8,20 @@ const ProductItem = (props) => {
     const { id, title, image, price, category } = props; // используем деструктуризацию для получения значений из props
     //const baseLink = category ? `/merch/${encodeURIComponent(category.replace(/\s+/g, '-'))}/${id}` : `/merch/${id}`;
     const baseLink = `/merch/${category ? encodeURIComponent(category.replace(/\s+/g, '-')) + '/' : ''}${id}`;
+    const {isFavorite, addToFavorites, removeFromFavorites} = useFavoritesContext()
+    const favorite = isFavorite(id)
+    function onFavoriteClick() {
+        if(favorite)
+        {
+            removeFromFavorites(id)
+        } else {
+            addToFavorites(props)
+        }
+    }
     return (
         <div className="catalog_block-item">
             <div className="main">
-                <FavsButton initialState={false} onClick={(newState) => console.log(title + ' - Избранное:'+newState)} />
+                <FavsButton initialState={favorite} onClick={onFavoriteClick} />
                 <Link to={baseLink}>
                     <div className="img">
                         <img src={image} alt={title} />

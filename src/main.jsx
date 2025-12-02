@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { FavoritesProvider } from "@/contexts/FavoritesContext";
 
 //import routes from '@/routes.jsx'; // v-1 USAGE
 import { routes } from '@/routes.jsx'; // v-2 USAGE
@@ -15,6 +16,8 @@ const router = createBrowserRouter(routes, {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <FavoritesProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </FavoritesProvider>
   </StrictMode>,
 )

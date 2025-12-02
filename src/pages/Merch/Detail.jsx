@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useLoaderData } from 'react-router-dom';
 import FavsButton from '@/components/FavsButton/FavsButton';
+import { useFavoritesContext } from "@/contexts/FavoritesContext";
 
 const MerchDetail = () => {
     const productDetail = useLoaderData(); // т.к. используется ф-ция loader
@@ -8,14 +9,23 @@ const MerchDetail = () => {
     const displayTitle = title || 'Без названия';
     const displayPrice = (price !== undefined && price !== null) ? price : null;
     const displayDescription = description || null;
-    
+    const {isFavorite, addToFavorites, removeFromFavorites} = useFavoritesContext();
+    const favorite = isFavorite(productDetail.id);
+    function onFavoriteClick() {
+        if(favorite)
+        {
+            removeFromFavorites(productDetail.id)
+        } else {
+            addToFavorites(productDetail)
+        }
+    }
     return (
         <section className="catalog_index_block" key={id}>
             <div className="container">
                 <div className="catalog_index_block-wrap">
                     <div className="catalog_index_block-gallery">
                         <div className="img">
-                            <FavsButton initialState={false} onClick={(newState) => console.log(displayTitle + ' - Избранное:'+newState)} />
+                            <FavsButton initialState={favorite} onClick={onFavoriteClick} />
                             <img src={image} alt={displayTitle} />
                         </div>
                     </div>
